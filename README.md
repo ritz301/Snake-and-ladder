@@ -1,2 +1,2 @@
 # Snake-and-ladder
-Move - Bit - Fall - Repeat
+Move - GetBit - Fall - Repeat
