@@ -2,18 +2,24 @@ package snakenladder;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
 import javax.swing.*;
 import java.util.Random;
 
 public class Dice extends JApplet{
 
-private final Player p;
-private final JLabel[][] g;
-private int pos = 100;
+private Player[] p = new Player[] {};
+private final JLabel[][] g; 
+private final int[] pos;
+private static int n;
+private static int state = 0;
 
-Dice(Player pl,JLabel[][] grid) {
-    p = pl;
+Dice(Player[] pl ,int n ,JLabel[][] grid) {
+    p = pl; 
     g = grid;
+    Dice.n = n;
+    pos = new int[n];
+    Arrays.fill(pos, 100);
     this.setContentPane(new RollDicePanel());
 }//end constructor
 
@@ -36,16 +42,12 @@ rollButton.addActionListener(new RollListener());
 //--- Create panel for two dice
 JPanel dicePanel = new JPanel();
 dicePanel.add(_left);
-JLabel label1 = new JLabel("ME");
-JLabel label2 = new JLabel("CPU");
-//--- Add components to content pane
-this.add(label1);
+
 JPanel rolldice = new JPanel();
 rolldice.setLayout(new BoxLayout(rolldice, BoxLayout.Y_AXIS));
 rolldice.add(rollButton);
 rolldice.add(dicePanel);
 this.add(rolldice);
-this.add(label2);
 }//end constructor
 /////////////////////////////////// inner listener class RollListener
 /** Inner listener class for Roll button. */
@@ -78,10 +80,16 @@ roll(); // Set to random initial value
 */
 public int roll() {
 int val = random.nextInt(6) + 1; // Range 1-6
-pos = pos - val;
-if(pos<0)
-    System.exit(0);
-p.move(val,g);
+pos[state] = pos[state] - val;
+for(int i=0;i<n;i++){
+    if(pos[i]<0){
+        System.out.println("Game over");
+        JOptionPane.showMessageDialog(rootPane, "Player" + Integer.toString(i+1) + "Won");
+        System.exit(0);
+    }
+}
+p[state].move(val,g);
+state = (state + 1)%n;
 setValue(val);
 return val;
 }//end roll
