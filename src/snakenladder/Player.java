@@ -25,6 +25,7 @@ public class Player extends JFrame {
     private final int btm[];
     
     private static ladders l;
+    private static snakes ss;
     
     public Player(Color c,int h[],int t[],int top[],int btm[]){
         this.id = instances;
@@ -37,10 +38,15 @@ public class Player extends JFrame {
         this.c = c;
     }
     
+    public int getid(){
+        return id;
+    }
+        
     public void move(int value,JLabel[][] grid){
         if(flag == true){
             flag = false;
             l = new ladders();
+            ss = new snakes();
             Arrays.sort(h);
             Arrays.sort(btm);
         }
@@ -49,6 +55,7 @@ public class Player extends JFrame {
                 Color e = grid[i_old][j_old].getBackground();
                 grid[i_old][j_old].setText(Integer.toString(100-10*i-j));
                 l.addladders(grid, top, btm);
+                ss.addsnakes(grid, h, t);
                 if(e==Color.DARK_GRAY)
                     grid[i_old][j_old].setForeground(Color.white);
                 else

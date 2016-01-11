@@ -83,8 +83,9 @@ int val = random.nextInt(6) + 1; // Range 1-6
 pos[state] = pos[state] - val;
 for(int i=0;i<n;i++){
     if(pos[i]<0){
+        int x = p[i].getid();
         System.out.println("Game over");
-        JOptionPane.showMessageDialog(rootPane, "Player" + Integer.toString(i+1) + "Won");
+        JOptionPane.showMessageDialog(rootPane, "Player" + x + "Won");
         System.exit(0);
     }
 }
